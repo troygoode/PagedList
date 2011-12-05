@@ -51,6 +51,7 @@
     <Compile Include="GoToFormRenderOptions.cs" />
     <Compile Include="HtmlHelper.cs" />
     <Compile Include="PagedListRenderOptions.cs" />
+    <Compile Include="Pagination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
