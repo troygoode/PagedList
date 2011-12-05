@@ -1,10 +1,13 @@
-﻿@{
-	ViewBag.Title = "Traditional Paging";
-}
-@using PagedList;
+﻿@using PagedList;
 @using PagedList.Mvc;
 
-<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+	ViewBag.Title = "Traditional Paging";
+}
+
+@section head {
+  <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+}
 
 <h2>PagedList.Mvc.Example Website : Traditional Paging</h2>
 

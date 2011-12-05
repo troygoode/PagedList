@@ -80,7 +80,7 @@ namespace PagedList.Mvc
         ///<param name="generatePageUrl">A function that takes the page number  of the desired page and returns a URL-string that will load that page.</param>
         ///<param name="maxPages">The maximum number of pages to show to select from.</param>
         ///<returns>Outputs the paging control HTML.</returns>
-        public static MvcHtmlString Pager(this HtmlHelper html, IPagedList list, Func<int, string> generatePageUrl, int maxPages = 11)
+        public static MvcHtmlString Pager(this System.Web.Mvc.HtmlHelper html, IPagedList list, Func<int, string> generatePageUrl, int maxPages = 11)
         {
             /* http://twitter.github.com/bootstrap/#tables
             

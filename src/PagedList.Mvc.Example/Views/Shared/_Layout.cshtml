@@ -3,6 +3,7 @@
 <head>
 	<title>@ViewBag.Title</title>
 	<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+  @RenderSection("head", false)
 </head>
 <body>
 	<nav>
@@ -12,6 +13,7 @@
 			<li>@Html.ActionLink("Ajax Paging", "Ajax", "Home")</li>
 			<li>@Html.ActionLink("Infinite Scrolling", "Infinite", "Home")</li>
 			<li>@Html.ActionLink("Integrating with AutoMapper", "Index", "AutomappedList")</li>
+			<li>@Html.ActionLink("Bootstrap Pager", "Bootstrap", "Home")</li>
 		</ul>
 	</nav>
 	@RenderBody()
