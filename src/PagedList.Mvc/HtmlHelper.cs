@@ -68,7 +68,6 @@ namespace PagedList.Mvc
             {
                 InnerHtml = format(targetPageNumber)
             };
-			//page.SetInnerText(format(targetPageNumber));
 
 			if (i == list.PageNumber)
 				return WrapInListItem(page, options, "active");
