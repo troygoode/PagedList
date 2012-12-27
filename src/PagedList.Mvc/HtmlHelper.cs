@@ -159,13 +159,30 @@ namespace PagedList.Mvc
 		{
 			var listItemLinks = new List<TagBuilder>();
 
-			//first
-			if (options.DisplayLinkToFirstPage)
-				listItemLinks.Add(First(list, generatePageUrl, options));
+			if (options.DisplayNavigationBehaviour == DisplayNavigationBehaviour.FirstLastPrimary)
+			{
+				//first
+				if (options.DisplayLinkToFirstPage == DisplayBehaviour.ShowAlways
+				    || (options.DisplayLinkToFirstPage == DisplayBehaviour.ShowAlways && !list.IsFirstPage))
+					listItemLinks.Add(First(list, generatePageUrl, options));
 
-			//previous
-			if (options.DisplayLinkToPreviousPage)
-				listItemLinks.Add(Previous(list, generatePageUrl, options));
+				//previous
+				if (options.DisplayLinkToPreviousPage == DisplayBehaviour.ShowAlways
+				    || options.DisplayLinkToPreviousPage == DisplayBehaviour.ShowIfNeed && !list.IsFirstPage)
+					listItemLinks.Add(Previous(list, generatePageUrl, options));
+			}
+			else
+			{
+				//previous
+				if (options.DisplayLinkToPreviousPage == DisplayBehaviour.ShowAlways
+					|| options.DisplayLinkToPreviousPage == DisplayBehaviour.ShowIfNeed && !list.IsFirstPage)
+					listItemLinks.Add(Previous(list, generatePageUrl, options));
+
+				//first
+				if (options.DisplayLinkToFirstPage == DisplayBehaviour.ShowAlways
+					|| (options.DisplayLinkToFirstPage == DisplayBehaviour.ShowAlways && !list.IsFirstPage))
+					listItemLinks.Add(First(list, generatePageUrl, options));
+			}
 
 			//text
 			if (options.DisplayPageCountAndCurrentLocation)
@@ -211,13 +228,30 @@ namespace PagedList.Mvc
 					listItemLinks.Add(Ellipses(options));
 			}
 
-			//next
-			if (options.DisplayLinkToNextPage)
-				listItemLinks.Add(Next(list, generatePageUrl, options));
+			if (options.DisplayNavigationBehaviour == DisplayNavigationBehaviour.FirstLastPrimary)
+			{
+				//next
+				if (options.DisplayLinkToNextPage == DisplayBehaviour.ShowAlways
+				    || (options.DisplayLinkToNextPage == DisplayBehaviour.ShowIfNeed && !list.IsLastPage))
+					listItemLinks.Add(Next(list, generatePageUrl, options));
 
-			//last
-			if (options.DisplayLinkToLastPage)
-				listItemLinks.Add(Last(list, generatePageUrl, options));
+				//last
+				if (options.DisplayLinkToLastPage == DisplayBehaviour.ShowAlways
+				    || (options.DisplayLinkToLastPage == DisplayBehaviour.ShowIfNeed && !list.IsLastPage))
+					listItemLinks.Add(Last(list, generatePageUrl, options));
+			}
+			else
+			{
+				//last
+				if (options.DisplayLinkToLastPage == DisplayBehaviour.ShowAlways
+					|| (options.DisplayLinkToLastPage == DisplayBehaviour.ShowIfNeed && !list.IsLastPage))
+					listItemLinks.Add(Last(list, generatePageUrl, options));
+
+				//next
+				if (options.DisplayLinkToNextPage == DisplayBehaviour.ShowAlways
+					|| (options.DisplayLinkToNextPage == DisplayBehaviour.ShowIfNeed && !list.IsLastPage))
+					listItemLinks.Add(Next(list, generatePageUrl, options));
+			}
 
 			//append class to first item in list?
 			if (!string.IsNullOrWhiteSpace(options.ClassToApplyToFirstListItemInPager))
