@@ -15,10 +15,11 @@ namespace PagedList.Mvc
 		///</summary>
 		public PagedListRenderOptions()
 		{
-			DisplayLinkToFirstPage = false;
-			DisplayLinkToLastPage = false;
-			DisplayLinkToPreviousPage = true;
-			DisplayLinkToNextPage = true;
+			DisplayLinkToFirstPage = DisplayBehaviour.None;
+			DisplayLinkToLastPage = DisplayBehaviour.None;
+			DisplayLinkToPreviousPage = DisplayBehaviour.ShowAlways;
+			DisplayLinkToNextPage = DisplayBehaviour.ShowAlways;
+			DisplayNavigationBehaviour = DisplayNavigationBehaviour.FirstLastPrimary;
 			DisplayLinkToIndividualPages = true;
 			DisplayPageCountAndCurrentLocation = false;
 			MaximumPageNumbersToDisplay = 10;
@@ -67,22 +68,27 @@ namespace PagedList.Mvc
 		///<summary>
 		/// When true, includes a hyperlink to the first page of the list.
 		///</summary>
-		public bool DisplayLinkToFirstPage { get; set; }
+		public DisplayBehaviour DisplayLinkToFirstPage { get; set; }
 
 		///<summary>
 		/// When true, includes a hyperlink to the last page of the list.
 		///</summary>
-		public bool DisplayLinkToLastPage { get; set; }
+		public DisplayBehaviour DisplayLinkToLastPage { get; set; }
 
 		///<summary>
 		/// When true, includes a hyperlink to the previous page of the list.
 		///</summary>
-		public bool DisplayLinkToPreviousPage { get; set; }
+		public DisplayBehaviour DisplayLinkToPreviousPage { get; set; }
 
 		///<summary>
 		/// When true, includes a hyperlink to the next page of the list.
 		///</summary>
-		public bool DisplayLinkToNextPage { get; set; }
+		public DisplayBehaviour DisplayLinkToNextPage { get; set; }
+
+		/// <summary>
+		/// The order in which to display the navigation controls.
+		/// </summary>
+		public DisplayNavigationBehaviour DisplayNavigationBehaviour { get; set; }
 
 		///<summary>
 		/// When true, includes hyperlinks for each page in the list.
@@ -239,8 +245,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				{
-					DisplayLinkToFirstPage = true,
-					DisplayLinkToLastPage = true,
+					DisplayLinkToFirstPage = DisplayBehaviour.ShowAlways,
+					DisplayLinkToLastPage = DisplayBehaviour.ShowAlways,
 				};
 			}
 		}
@@ -254,8 +260,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 						{
-							DisplayLinkToFirstPage = false,
-							DisplayLinkToLastPage = false,
+							DisplayLinkToFirstPage = DisplayBehaviour.None,
+							DisplayLinkToLastPage = DisplayBehaviour.None,
 							DisplayLinkToIndividualPages = false
 						};
 			}
@@ -270,8 +276,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				       	{
-				       		DisplayLinkToFirstPage = false,
-				       		DisplayLinkToLastPage = false,
+				       		DisplayLinkToFirstPage = DisplayBehaviour.None,
+				       		DisplayLinkToLastPage = DisplayBehaviour.None,
 				       		DisplayLinkToIndividualPages = false,
 				       		DisplayPageCountAndCurrentLocation = true
 				       	};
@@ -287,8 +293,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				       	{
-				       		DisplayLinkToFirstPage = false,
-				       		DisplayLinkToLastPage = false,
+				       		DisplayLinkToFirstPage = DisplayBehaviour.None,
+				       		DisplayLinkToLastPage = DisplayBehaviour.None,
 				       		DisplayLinkToIndividualPages = false,
 				       		DisplayItemSliceAndTotal = true
 				       	};
@@ -304,10 +310,10 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				       	{
-				       		DisplayLinkToFirstPage = false,
-				       		DisplayLinkToLastPage = false,
-				       		DisplayLinkToPreviousPage = false,
-				       		DisplayLinkToNextPage = false,
+				       		DisplayLinkToFirstPage = DisplayBehaviour.None,
+				       		DisplayLinkToLastPage = DisplayBehaviour.None,
+				       		DisplayLinkToPreviousPage = DisplayBehaviour.None,
+				       		DisplayLinkToNextPage = DisplayBehaviour.None,
 				       		DisplayEllipsesWhenNotShowingAllPageNumbers = false
 				       	};
 			}
@@ -322,10 +328,10 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				       	{
-				       		DisplayLinkToFirstPage = false,
-				       		DisplayLinkToLastPage = false,
-				       		DisplayLinkToPreviousPage = true,
-				       		DisplayLinkToNextPage = true,
+				       		DisplayLinkToFirstPage = DisplayBehaviour.None,
+				       		DisplayLinkToLastPage = DisplayBehaviour.None,
+				       		DisplayLinkToPreviousPage = DisplayBehaviour.ShowAlways,
+				       		DisplayLinkToNextPage = DisplayBehaviour.ShowAlways,
 				       		MaximumPageNumbersToDisplay = 5
 				       	};
 			}
@@ -340,8 +346,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				       	{
-				       		DisplayLinkToFirstPage = false,
-				       		DisplayLinkToLastPage = false,
+				       		DisplayLinkToFirstPage = DisplayBehaviour.None,
+				       		DisplayLinkToLastPage = DisplayBehaviour.None,
 				       		DisplayLinkToIndividualPages = false,
 				       		ContainerDivClasses = null,
 				       		UlElementClasses = new[] {"pager"},
@@ -362,8 +368,8 @@ namespace PagedList.Mvc
 			{
 				return new PagedListRenderOptions
 				{
-					DisplayLinkToFirstPage = false,
-					DisplayLinkToLastPage = false,
+					DisplayLinkToFirstPage = DisplayBehaviour.None,
+					DisplayLinkToLastPage = DisplayBehaviour.None,
 					DisplayLinkToIndividualPages = false,
 					ContainerDivClasses = null,
 					UlElementClasses = new[] { "pager" },
