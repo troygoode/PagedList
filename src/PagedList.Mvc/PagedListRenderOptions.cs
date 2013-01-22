@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 
 namespace PagedList.Mvc
 {
@@ -210,9 +208,9 @@ namespace PagedList.Mvc
 		/// Enables ASP.NET MVC's unobtrusive AJAX feature. An XHR request will retrieve HTML from the clicked page and replace the innerHtml of the provided element ID.
 		/// </summary>
 		/// <param name="options">The preferred Html.PagedList(...) style options.</param>
-        /// <param name="ajaxOptions">The ajax options that will put into the link</param>
+		/// <param name="id">The element ID ("#my_id") of the element whose innerHtml should be replaced.</param>
 		/// <returns>The PagedListRenderOptions value passed in, with unobtrusive AJAX attributes added to the page links.</returns>
-		public static PagedListRenderOptions EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions options, AjaxOptions ajaxOptions)
+		public static PagedListRenderOptions EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions options, string id)
 		{
 			options.FunctionToTransformEachPageLink = (liTagBuilder, aTagBuilder) =>
 			                                          	{
@@ -222,12 +220,15 @@ namespace PagedList.Mvc
 																var liClasses = liTagBuilder.Attributes["class"].Split(' ');
 																appendUnobtrusiveAjaxAttributes = !liClasses.Contains("disabled") && !liClasses.Contains("active");
 															}
-                                                            if (ajaxOptions != null)
-                                                            {
-                                                                foreach (var ajaxOption in ajaxOptions.ToUnobtrusiveHtmlAttributes())
-                                                                    aTagBuilder.Attributes.Add(ajaxOption.Key, ajaxOption.Value.ToString());
-                                                            }
-                                                           
+
+															if (appendUnobtrusiveAjaxAttributes)
+															{
+																aTagBuilder.Attributes.Add("data-ajax", "true");
+																aTagBuilder.Attributes.Add("data-ajax-method", "get");
+																aTagBuilder.Attributes.Add("data-ajax-mode", "replace");
+																aTagBuilder.Attributes.Add("data-ajax-update", id);																
+															}
+
 															liTagBuilder.InnerHtml = aTagBuilder.ToString();
 			                                          		return liTagBuilder;
 			                                          	};
@@ -237,31 +238,12 @@ namespace PagedList.Mvc
 		/// <summary>
 		/// Enables ASP.NET MVC's unobtrusive AJAX feature. An XHR request will retrieve HTML from the clicked page and replace the innerHtml of the provided element ID.
 		/// </summary>
-		/// <param name="id">The element ID ("my_id") of the element whose innerHtml should be replaced, if # is included at the start this will be removed.</param>
+		/// <param name="id">The element ID ("#my_id") of the element whose innerHtml should be replaced.</param>
 		/// <returns>A default instance of PagedListRenderOptions value passed in, with unobtrusive AJAX attributes added to the page links.</returns>
 		public static PagedListRenderOptions EnableUnobtrusiveAjaxReplacing(string id)
 		{
-            if (id.StartsWith("#"))
-                id = id.Substring(1);
-
-            AjaxOptions ajaxOptions = new AjaxOptions()
-            {
-                 HttpMethod = "GET",
-                 InsertionMode = InsertionMode.Replace,
-                 UpdateTargetId = id
-            };
-            
-            return EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions(), ajaxOptions);
+			return EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions(), id);
 		}
-        /// <summary>
-        /// Enables ASP.NET MVC's unobtrusive AJAX feature. An XHR request will retrieve HTML from the clicked page and replace the innerHtml of the provided element ID.
-        /// </summary>
-        /// <param name="ajaxOptions">Ajax options that will be used to generate the unobstrusive tags on the link</param>
-        /// <returns>A default instance of PagedListRenderOptions value passed in, with unobtrusive AJAX attributes added to the page links.</returns>
-        public static PagedListRenderOptions EnableUnobtrusiveAjaxReplacing(AjaxOptions ajaxOptions)
-        {
-            return EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions(), ajaxOptions);
-        }
 
 		///<summary>
         /// Also includes links to First and Last pages.

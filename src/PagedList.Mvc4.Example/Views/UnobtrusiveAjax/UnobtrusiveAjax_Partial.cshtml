@@ -9,9 +9,4 @@
 	}
 </ul>
 
-@Html.PagedListPager((IPagedList)ViewBag.Names, page => Url.Action("Index", new { page }), 
-PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing("#unobtrusive"))
-
-
-@Html.PagedListPager((IPagedList)ViewBag.Names, page => Url.Action("Index", new { page }), 
-PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing( new AjaxOptions(){  HttpMethod = "POST", UpdateTargetId = "unobtrusive" }))
+@Html.PagedListPager((IPagedList)ViewBag.Names, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing("#unobtrusive"))
