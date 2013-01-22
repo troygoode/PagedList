@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 
 namespace PagedList.Mvc
 {
@@ -152,11 +153,12 @@ namespace PagedList.Mvc
 		///<param name = "generatePageUrl">A function that takes the page number  of the desired page and returns a URL-string that will load that page.</param>
 		///<param name = "options">Formatting options.</param>
 		///<returns>Outputs the paging control HTML.</returns>
-		public static MvcHtmlString PagedListPager(this System.Web.Mvc.HtmlHelper html,
-												   IPagedList list,
-												   Func<int, string> generatePageUrl,
-												   PagedListRenderOptions options)
-		{
+        public static MvcHtmlString PagedListPager(this System.Web.Mvc.HtmlHelper html,
+                                                   IPagedList list,
+                                                   Func<int, string> generatePageUrl,
+                                                   PagedListRenderOptions options)
+        
+        {
             if (options.Display == PagedListDisplayMode.Never || (options.Display == PagedListDisplayMode.IfNeeded && list.PageCount <= 1))
                 return null;
 
@@ -262,6 +264,8 @@ namespace PagedList.Mvc
 
 			return new MvcHtmlString(outerDiv.ToString());
 		}
+
+     
 
 		///<summary>
 		/// Displays a configurable "Go To Page:" form for instances of PagedList.
