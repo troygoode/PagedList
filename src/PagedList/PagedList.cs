@@ -26,37 +26,16 @@ namespace PagedList
 		/// <param name="pageSize">The maximum size of any individual subset.</param>
 		/// <exception cref="ArgumentOutOfRangeException">The specified index cannot be less than zero.</exception>
 		/// <exception cref="ArgumentOutOfRangeException">The specified page size cannot be less than one.</exception>
-		public PagedList(IQueryable<T> superset, int pageNumber, int pageSize)
-		{
-			if (pageNumber < 1)
-				throw new ArgumentOutOfRangeException("pageNumber", pageNumber, "PageNumber cannot be below 1.");
-			if (pageSize < 1)
-				throw new ArgumentOutOfRangeException("pageSize", pageSize, "PageSize cannot be less than 1.");
-
-			// set source to blank list if superset is null to prevent exceptions
-			TotalItemCount = superset == null ? 0 : superset.Count();
-			PageSize = pageSize;
-			PageNumber = pageNumber;
-			PageCount = TotalItemCount > 0
-						? (int)Math.Ceiling(TotalItemCount / (double)PageSize)
-						: 0;
-			HasPreviousPage = PageNumber > 1;
-			HasNextPage = PageNumber < PageCount;
-			IsFirstPage = PageNumber == 1;
-			IsLastPage = PageNumber >= PageCount;
-			FirstItemOnPage = (PageNumber - 1) * PageSize + 1;
-			var numberOfLastItemOnPage = FirstItemOnPage + PageSize - 1;
-			LastItemOnPage = numberOfLastItemOnPage > TotalItemCount
-							? TotalItemCount
-							: numberOfLastItemOnPage;
-
-			// add items to internal list
-			if (superset != null && TotalItemCount > 0)
-				Subset.AddRange(pageNumber == 1
-					? superset.Skip(0).Take(pageSize).ToList()
-					: superset.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
-				);
-		}
+        public PagedList(IQueryable<T> superset, int pageNumber, int pageSize)
+            : base(pageNumber, pageSize, superset == null ? 0 : superset.Count())
+        {
+            // add items to internal list
+            if (superset != null && TotalItemCount > 0)
+                Subset.AddRange(pageNumber == 1
+                    ? superset.Skip(0).Take(pageSize).ToList()
+                    : superset.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
+                );
+        }
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PagedList{T}"/> class that divides the supplied superset into subsets the size of the supplied pageSize. The instance then only containes the objects contained in the subset specified by index.
