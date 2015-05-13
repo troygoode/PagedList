@@ -1,4 +1,6 @@
-﻿namespace PagedList.Mvc
+﻿using PagedList.Mvc.Localization;
+
+namespace PagedList.Mvc
 {
 	///<summary>
 	/// Options for configuring the output of <see cref = "HtmlHelper" />.
@@ -10,8 +12,8 @@
 		///</summary>
 		public GoToFormRenderOptions(string inputFieldName)
 		{
-			LabelFormat = "Go to page:";
-			SubmitButtonFormat = "Go";
+			LabelFormat = Strings.GoToFormRenderOptions_LabelFormat;
+			SubmitButtonFormat = Strings.GoToFormRenderOptions_SubmitButtonFormat;
 			InputFieldName = inputFieldName;
 			InputFieldType = "number";
 		}

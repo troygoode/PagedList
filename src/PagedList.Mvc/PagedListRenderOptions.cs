@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using PagedList.Mvc.Localization;
 
 namespace PagedList.Mvc
 {
@@ -30,8 +31,8 @@ namespace PagedList.Mvc
             LinkToIndividualPageFormat = "{0}";
             LinkToNextPageFormat = "»";
             LinkToLastPageFormat = "»»";
-            PageCountAndCurrentLocationFormat = "Page {0} of {1}.";
-            ItemSliceAndTotalFormat = "Showing items {0} through {1} of {2}.";
+            PageCountAndCurrentLocationFormat = Strings.PageCountAndCurrentLocationFormat;
+            ItemSliceAndTotalFormat = Strings.ItemSliceAndTotalFormat;
             FunctionToDisplayEachPageNumber = null;
             ClassToApplyToFirstListItemInPager = null;
             ClassToApplyToLastListItemInPager = null;
@@ -440,8 +441,8 @@ namespace PagedList.Mvc
                             UlElementClasses = new[] { "pager" },
                             ClassToApplyToFirstListItemInPager = null,
                             ClassToApplyToLastListItemInPager = null,
-                            LinkToPreviousPageFormat = "Previous",
-                            LinkToNextPageFormat = "Next"
+                            LinkToPreviousPageFormat = Strings.TwitterBootstrapPager_LinkToPreviousPageFormat,
+                            LinkToNextPageFormat = Strings.TwitterBootstrapPager_LinkToNextPageFormat
                         };
             }
         }
@@ -464,8 +465,8 @@ namespace PagedList.Mvc
                     UlElementClasses = new[] { "pager" },
                     ClassToApplyToFirstListItemInPager = "previous",
                     ClassToApplyToLastListItemInPager = "next",
-                    LinkToPreviousPageFormat = "&larr; Older",
-                    LinkToNextPageFormat = "Newer &rarr;"
+                    LinkToPreviousPageFormat = Strings.TwitterBootstrapPagerAligned_LinkToPreviousPageFormat,
+                    LinkToNextPageFormat = Strings.TwitterBootstrapPagerAligned_LinkToNextPageFormat
                 };
             }
         }

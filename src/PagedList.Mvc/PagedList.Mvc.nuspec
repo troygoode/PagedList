@@ -14,7 +14,7 @@
     <owners>TroyGoode</owners>
     <tags>paging pager page infinitescroll ajax mvc</tags>
     <dependencies>
-      <dependency id="PagedList" version="1.18" />
+      <dependency id="PagedList" version="2.0" />
     </dependencies>
   </metadata>
   <files>
