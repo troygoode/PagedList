@@ -1,3 +1,5 @@
+# IMPORTANT: This package is no longer maintained. Please see [ernado-x/X.PagedList](https://github.com/ernado-x/X.PagedList) for a drop-in replacement.
+
 # PagedList
 
 **[Follow me (@troygoode) on Twitter!](https://twitter.com/intent/user?screen_name=troygoode)**
