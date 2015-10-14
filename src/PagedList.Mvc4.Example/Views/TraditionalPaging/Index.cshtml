@@ -47,6 +47,9 @@
 
 <h2>Custom Pager Configurations</h2>
 
+<h3>Functional Ellipses</h3>
+@Html.PagedListPager((IPagedList)ViewBag.Names, page => Url.Action("Index", new { page }), new PagedListRenderOptions() { EnableEllipsesNavigation = true })
+
 <h3>Custom Wording (<em>Spanish Translation Example</em>)</h3>
 @Html.PagedListPager((IPagedList)ViewBag.Names, page => Url.Action("Index", new { page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< Primera", LinkToPreviousPageFormat = "< Anterior", LinkToNextPageFormat = "Siguiente >", LinkToLastPageFormat = "Última >>" })
 

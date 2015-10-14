@@ -122,15 +122,18 @@ namespace PagedList.Mvc
 			return WrapInListItem(text, options, "PagedList-pageCountAndLocation", "disabled");
 		}
 
-		private static TagBuilder Ellipses(PagedListRenderOptions options)
-		{
-			var a = new TagBuilder("a")
-			        	{
-			        		InnerHtml = options.EllipsesFormat
-			        	};
+		private static TagBuilder Ellipses(PagedListRenderOptions options, Func<int, string> generatePageUrl, int targetPageNumber)
+        {
+            var a = new TagBuilder("a")
+                        {
+                            InnerHtml = options.EllipsesFormat
+                        };
 
-			return WrapInListItem(a, options, "PagedList-ellipses", "disabled");
-		}
+            if (options.EnableEllipsesNavigation)
+                a.Attributes["href"] = generatePageUrl(targetPageNumber);
+
+            return WrapInListItem(a, options, "PagedList-ellipses", options.EnableEllipsesNavigation ? null : "disabled");
+        }
 
 		///<summary>
 		///	Displays a configurable paging control for instances of PagedList.
@@ -202,7 +205,7 @@ namespace PagedList.Mvc
 			{
 				//if there are previous page numbers not displayed, show an ellipsis
 				if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && firstPageToDisplay > 1)
-					listItemLinks.Add(Ellipses(options));
+                    listItemLinks.Add(Ellipses(options, generatePageUrl, firstPageToDisplay - 1));
 
 				foreach (var i in Enumerable.Range(firstPageToDisplay, pageNumbersToDisplay))
 				{
@@ -216,7 +219,7 @@ namespace PagedList.Mvc
 
 				//if there are subsequent page numbers not displayed, show an ellipsis
 				if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && (firstPageToDisplay + pageNumbersToDisplay - 1) < list.PageCount)
-					listItemLinks.Add(Ellipses(options));
+                    listItemLinks.Add(Ellipses(options, generatePageUrl, (firstPageToDisplay + pageNumbersToDisplay)));
 			}
 
 			//next
