@@ -65,8 +65,10 @@ namespace PagedList.Mvc
 			var format = options.FunctionToDisplayEachPageNumber
 				?? (pageNumber => string.Format(options.LinkToIndividualPageFormat, pageNumber));
 			var targetPageNumber = i;
-			var page = new TagBuilder("a");
-			page.SetInnerText(format(targetPageNumber));
+			var page = new TagBuilder("a")
+            {
+                InnerHtml = format(targetPageNumber)
+            };
 
 			if (i == list.PageNumber)
 				return WrapInListItem(page, options, "active");
