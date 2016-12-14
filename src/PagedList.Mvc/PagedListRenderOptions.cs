@@ -203,7 +203,7 @@ namespace PagedList.Mvc
 		/// <summary>
 		/// An extension point which allows you to fully customize the anchor tags used for clickable pages, as well as navigation features such as Next, Last, etc.
 		/// </summary>
-		public Func<TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
+		public Func<int?, IPagedList, TagBuilder, TagBuilder, TagBuilder> FunctionToTransformEachPageLink { get; set; }
 
 		/// <summary>
 		/// Enables ASP.NET MVC's unobtrusive AJAX feature. An XHR request will retrieve HTML from the clicked page and replace the innerHtml of the provided element ID.
@@ -213,7 +213,7 @@ namespace PagedList.Mvc
 		/// <returns>The PagedListRenderOptions value passed in, with unobtrusive AJAX attributes added to the page links.</returns>
         public static PagedListRenderOptions EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions options, AjaxOptions ajaxOptions)
 		{
-			options.FunctionToTransformEachPageLink = (liTagBuilder, aTagBuilder) =>
+			options.FunctionToTransformEachPageLink = (targetPageNumber, list, liTagBuilder, aTagBuilder) =>
 				                                          {
 																var liClass = liTagBuilder.Attributes.ContainsKey("class") ? liTagBuilder.Attributes["class"] ?? "" : "";
 																if (ajaxOptions != null && !liClass.Contains("disabled") && !liClass.Contains("active"))

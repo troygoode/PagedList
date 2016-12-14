@@ -18,13 +18,13 @@ namespace PagedList.Mvc
 			return li;
 		}
 
-		private static TagBuilder WrapInListItem(TagBuilder inner, PagedListRenderOptions options, params string[] classes)
+		private static TagBuilder WrapInListItem(int? targetPageNumber, IPagedList list, TagBuilder inner, PagedListRenderOptions options, params string[] classes)
 		{
 			var li = new TagBuilder("li");
 			foreach (var @class in classes)
 				li.AddCssClass(@class);
 			if (options.FunctionToTransformEachPageLink != null)
-				return options.FunctionToTransformEachPageLink(li, inner);
+				return options.FunctionToTransformEachPageLink(targetPageNumber, list, li, inner);
 			li.InnerHtml = inner.ToString();
 			return li;
 		}
@@ -38,10 +38,10 @@ namespace PagedList.Mvc
 			            	};
 			
 			if (list.IsFirstPage)
-				return WrapInListItem(first, options, "PagedList-skipToFirst", "disabled");
+				return WrapInListItem(null, list, first, options, "PagedList-skipToFirst", "disabled");
 
 			first.Attributes["href"] = generatePageUrl(targetPageNumber);
-			return WrapInListItem(first, options, "PagedList-skipToFirst");
+			return WrapInListItem(targetPageNumber, list, first, options, "PagedList-skipToFirst");
 		}
 
 		private static TagBuilder Previous(IPagedList list, Func<int, string> generatePageUrl, PagedListRenderOptions options)
@@ -54,10 +54,10 @@ namespace PagedList.Mvc
 			previous.Attributes["rel"] = "prev";
 			
 			if (!list.HasPreviousPage)
-				return WrapInListItem(previous, options, "PagedList-skipToPrevious", "disabled");
+				return WrapInListItem(null, list, previous, options, "PagedList-skipToPrevious", "disabled");
 
 			previous.Attributes["href"] = generatePageUrl(targetPageNumber);
-			return WrapInListItem(previous, options, "PagedList-skipToPrevious");
+			return WrapInListItem(targetPageNumber, list, previous, options, "PagedList-skipToPrevious");
 		}
 
 		private static TagBuilder Page(int i, IPagedList list, Func<int, string> generatePageUrl, PagedListRenderOptions options)
@@ -69,10 +69,10 @@ namespace PagedList.Mvc
 			page.SetInnerText(format(targetPageNumber));
 
 			if (i == list.PageNumber)
-				return WrapInListItem(page, options, "active");
+				return WrapInListItem(targetPageNumber, list, page, options, "active");
 
 			page.Attributes["href"] = generatePageUrl(targetPageNumber);
-			return WrapInListItem(page, options);
+			return WrapInListItem(targetPageNumber, list, page, options);
 		}
 
 		private static TagBuilder Next(IPagedList list, Func<int, string> generatePageUrl, PagedListRenderOptions options)
@@ -85,10 +85,10 @@ namespace PagedList.Mvc
 			next.Attributes["rel"] = "next";
 			
 			if (!list.HasNextPage)
-				return WrapInListItem(next, options, "PagedList-skipToNext", "disabled");
+				return WrapInListItem(null, list, next, options, "PagedList-skipToNext", "disabled");
 
 			next.Attributes["href"] = generatePageUrl(targetPageNumber);
-			return WrapInListItem(next, options, "PagedList-skipToNext");
+			return WrapInListItem(targetPageNumber, list, next, options, "PagedList-skipToNext");
 		}
 
 		private static TagBuilder Last(IPagedList list, Func<int, string> generatePageUrl, PagedListRenderOptions options)
@@ -100,10 +100,10 @@ namespace PagedList.Mvc
 			           	};
 			
 			if (list.IsLastPage)
-				return WrapInListItem(last, options, "PagedList-skipToLast", "disabled");
+				return WrapInListItem(null, list, last, options, "PagedList-skipToLast", "disabled");
 
 			last.Attributes["href"] = generatePageUrl(targetPageNumber);
-			return WrapInListItem(last, options, "PagedList-skipToLast");
+			return WrapInListItem(targetPageNumber, list, last, options, "PagedList-skipToLast");
 		}
 
 		private static TagBuilder PageCountAndLocationText(IPagedList list, PagedListRenderOptions options)
@@ -111,7 +111,7 @@ namespace PagedList.Mvc
 			var text = new TagBuilder("a");
 			text.SetInnerText(string.Format(options.PageCountAndCurrentLocationFormat, list.PageNumber, list.PageCount));
 
-			return WrapInListItem(text, options, "PagedList-pageCountAndLocation", "disabled");
+			return WrapInListItem(null, list, text, options, "PagedList-pageCountAndLocation", "disabled");
 		}
 
 		private static TagBuilder ItemSliceAndTotalText(IPagedList list, PagedListRenderOptions options)
@@ -119,17 +119,17 @@ namespace PagedList.Mvc
 			var text = new TagBuilder("a");
 			text.SetInnerText(string.Format(options.ItemSliceAndTotalFormat, list.FirstItemOnPage, list.LastItemOnPage, list.TotalItemCount));
 
-			return WrapInListItem(text, options, "PagedList-pageCountAndLocation", "disabled");
+			return WrapInListItem(null, list, text, options, "PagedList-pageCountAndLocation", "disabled");
 		}
 
-		private static TagBuilder Ellipses(PagedListRenderOptions options)
+		private static TagBuilder Ellipses(IPagedList list, PagedListRenderOptions options)
 		{
 			var a = new TagBuilder("a")
 			        	{
 			        		InnerHtml = options.EllipsesFormat
 			        	};
 
-			return WrapInListItem(a, options, "PagedList-ellipses", "disabled");
+			return WrapInListItem(null, list, a, options, "PagedList-ellipses", "disabled");
 		}
 
 		///<summary>
@@ -202,7 +202,7 @@ namespace PagedList.Mvc
 			{
 				//if there are previous page numbers not displayed, show an ellipsis
 				if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && firstPageToDisplay > 1)
-					listItemLinks.Add(Ellipses(options));
+					listItemLinks.Add(Ellipses(list, options));
 
 				foreach (var i in Enumerable.Range(firstPageToDisplay, pageNumbersToDisplay))
 				{
@@ -216,7 +216,7 @@ namespace PagedList.Mvc
 
 				//if there are subsequent page numbers not displayed, show an ellipsis
 				if (options.DisplayEllipsesWhenNotShowingAllPageNumbers && (firstPageToDisplay + pageNumbersToDisplay - 1) < list.PageCount)
-					listItemLinks.Add(Ellipses(options));
+					listItemLinks.Add(Ellipses(list, options));
 			}
 
 			//next
